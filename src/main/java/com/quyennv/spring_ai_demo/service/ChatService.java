@@ -1,16 +1,22 @@
 package com.quyennv.spring_ai_demo.service;
 
+import java.util.List;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.content.Media;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.quyennv.spring_ai_demo.dto.request.ChatRequest;
+import com.quyennv.spring_ai_demo.dto.response.BillItem;
+import com.quyennv.spring_ai_demo.dto.response.ExpenseInfo;
+import com.quyennv.spring_ai_demo.dto.response.FilmInfo;
 
 @Service
 public class ChatService {
@@ -20,7 +26,7 @@ public class ChatService {
         chatClient = builder.build();
     }
 
-    public String chat(ChatRequest request) {
+    public ExpenseInfo chat(ChatRequest request) {
         SystemMessage systemMessage = new SystemMessage("""
             You are QuyenNV's AI assistant.
             Your name is Jr.
@@ -29,10 +35,13 @@ public class ChatService {
 
         Prompt prompt = new Prompt(systemMessage, userMessage);
 
-        return chatClient.prompt(prompt).call().content();
+        return chatClient
+            .prompt(prompt)
+            .call()
+            .entity(new ParameterizedTypeReference<ExpenseInfo>() {});
     }
 
-    public String chatWithImage(MultipartFile file, String message) {
+    public List<BillItem> chatWithImage(MultipartFile file, String message) {
         Media media = Media.builder()
             .mimeType(MimeTypeUtils.parseMimeType(file.getContentType()))
             .data(file.getResource())
@@ -52,6 +61,7 @@ public class ChatService {
             .user(promptUserSpec 
             -> promptUserSpec.media(media)
             .text(message))
-            .call().content();
+            .call()
+            .entity(new ParameterizedTypeReference<List<BillItem>>() {});
     }
 }
