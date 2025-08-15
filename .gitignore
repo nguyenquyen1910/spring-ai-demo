@@ -39,3 +39,4 @@ build/
 
 # Application properties
 application-api-key.yml
+application-database.yml

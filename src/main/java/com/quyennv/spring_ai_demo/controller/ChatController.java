@@ -10,8 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.quyennv.spring_ai_demo.dto.request.ChatRequest;
 import com.quyennv.spring_ai_demo.dto.response.BillItem;
-import com.quyennv.spring_ai_demo.dto.response.ExpenseInfo;
-import com.quyennv.spring_ai_demo.dto.response.FilmInfo;
 import com.quyennv.spring_ai_demo.service.ChatService;
 
 @RestController
@@ -23,7 +21,7 @@ public class ChatController {
     }
 
     @PostMapping("/chat")
-    ExpenseInfo chat(@RequestBody ChatRequest request) {
+    String chat(@RequestBody ChatRequest request) {
         return chatService.chat(request);
     }
 

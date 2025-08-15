@@ -1,5 +1,7 @@
 spring:
   config:
-    import: application-api-key.yml
+    import:
+      - application-api-key.yml
+      - application-database.yml
   application:
     name: spring-ai-demo

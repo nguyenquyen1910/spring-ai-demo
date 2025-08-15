@@ -1,0 +1,17 @@
+name: spring-ai-demo
+services:
+  mysql:
+    image: mysql:8.0.40-debian
+    container_name: mysql
+    hostname: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: springaidemo
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
